@@ -9,9 +9,18 @@
 #ifndef MICROSAT_H_
 #define MICROSAT_H_
 
+#include <avr/io.h>
+#include <util/delay.h>
+#include <avr/pgmspace.h>
+#include <avr/interrupt.h>
 
-#define sbi(port, pin) port |= (1 << pin);
-#define cbi(port, pin) port &= ~(1 << pin);
+#include "SD.h"
+#include "Timer.h"
+#include "Thermistor.h"
+
+
+extern bool MainInterrupt;
+extern uint8_t TimeTick;
 
 
 #endif /* MICROSAT_H_ */

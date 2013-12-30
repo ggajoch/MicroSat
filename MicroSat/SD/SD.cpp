@@ -52,3 +52,6 @@ void SD_::init()
 	while ( ! check( pf_lseek(this->SDOffset) ));
 #endif
 }
+
+
+SD_ SD;

@@ -5,4 +5,22 @@
  *  Author: rexina
  */ 
 
-//ISR(TIMER2_OVF_vect)
+#include "MicroSat.h"
+
+ISR(TIMER0_OVF_vect)
+{
+	MainInterrupt = true;
+}
+
+
+volatile uint8_t count = 0;
+ISR(TIMER2_OVF_vect)
+{
+	MainInterrupt = true;
+	++count;
+	if( count >= 8 )
+	{
+		++TimeTick;
+	}
+}
+

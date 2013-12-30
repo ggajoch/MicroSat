@@ -10,8 +10,11 @@
 #define TIMER_H_
 
 
-#include <avr/interrupt.h>
 #include "MicroSat.h"
+
+#define sbi(port, pin) port |= (1 << pin);
+#define cbi(port, pin) port &= ~(1 << pin);
+
 enum ClockPresc
 {
 	NOCLOCK = 0,
@@ -39,7 +42,7 @@ struct Timer0_
 		cbi(TIMSK0, TOIE0);
 	}
 };
-Timer0_ Timer0;
+extern Timer0_ Timer0;
 #define Timer0Int()  ISR(TIMER0_OVF_vect)
 
 
@@ -60,7 +63,7 @@ struct Timer1_
 		cbi(TIMSK1, TOIE1);
 	}
 };
-Timer1_ Timer1;
+extern Timer1_ Timer1;
 
 struct Timer2A_
 {
@@ -80,8 +83,8 @@ struct Timer2A_
 		cbi(TIMSK2, TOIE2);
 	}
 };
-Timer2A_ Timer2A;
 
+extern Timer2A_ Timer2A;
 
 
 #endif /* TIMER_H_ */

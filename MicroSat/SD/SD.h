@@ -53,5 +53,7 @@ class SD_
 			return true;
 		}
 };
-SD_ SD;
+
+extern SD_ SD;
+
 #endif /* SD_H_ */

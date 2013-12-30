@@ -5,29 +5,33 @@
  *  Author: rexina
  */ 
 
-#include <avr/io.h>
-#include <util/delay.h>
-#include <avr/pgmspace.h>
-#include <avr/interrupt.h>
 
-#include "SD.h"
-#include "Timer.h"
 #include "MicroSat.h"
 
 
-ISR(USART1_RX_vect)
-{
-	uint8_t a = 0;
-}
 
 int main(void)
 {
 	_delay_ms(10);
 	SD.init();
 	Timer2A.begin(Presc64); // 512 Hz TimeStamp
-	
+	Timer0.begin(Presc1);
     while(1)
     {
-        //TODO:: Please write your application code 
+        //TODO:: Please write your application code - Ta.
+		if ( MainInterrupt )
+		{
+			while ( TimeTick-- )
+				SD.tick();
+				
+			if ( false ) // [todo] -timer do zliczania
+			{
+				Thermistor.init();
+			}
+			if ( Thermistor.NewData )
+			{
+				Thermistor.end();
+			}
+		}
     }
 }
