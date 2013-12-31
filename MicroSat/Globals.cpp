@@ -7,5 +7,6 @@
 
 #include "MicroSat.h"
 
-bool MainInterrupt = 0;
-uint8_t TimeTick = 0;
+volatile bool Interrupt = 0;
+volatile uint8_t TimeTick = 0;
+volatile bool ThermistorRequest = 0;

@@ -4,10 +4,10 @@
 
 
 #define DDR_SPI DDRB
-#define DD_MOSI 2
-#define DD_SCK 1
-#define DD_MISO 3
-#define DD_SS 0
+#define DD_MOSI 5
+#define DD_SCK 7
+#define DD_MISO 6
+#define DD_SS 4
 
 void spi_init(void)
 {

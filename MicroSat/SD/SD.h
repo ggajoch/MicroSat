@@ -30,19 +30,22 @@ class SD_
 		void tick()
 		{
 			++TimeStamp;
-			uint8_t len = sprintf(buf,"T%d",TimeStamp);
+			uint8_t len = sprintf(buf,"T%d\n",TimeStamp);
 			this->write_buffer(len);
 		}
 		void write_buffer(uint8_t len)
 		{
 			pf_write(this->buf, len, &written);
 		}
-		template < class T >
-		void write_data(char code, T val)
-		{
-			uint8_t len = sprintf(buf,"%d%c%d\n\r",code,val);
-			this->write_buffer(len);
-		}
+		
+	#define WRITE_DATA_TO_SD(var) void write_data(uint8_t code, var val) { 	\
+								  uint8_t len = sprintf(buf,"%c%d\n",code,val); \
+								  this->write_buffer(len); \
+								  }
+		
+		WRITE_DATA_TO_SD(uint8_t)
+		WRITE_DATA_TO_SD(uint16_t)
+		WRITE_DATA_TO_SD(uint32_t)
 		bool check(BYTE result)
 		{
 			if( result != FR_OK )
@@ -51,6 +54,10 @@ class SD_
 				return false;
 			}
 			return true;
+		}
+		void end_block()
+		{
+			pf_write(0,0,&written);
 		}
 };
 

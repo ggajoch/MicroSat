@@ -2,7 +2,7 @@
 #ifndef __delay_h
 #define __delay_h
 
-#define DELAY(us)			(DelayAA(((us*(XTAL/1000000))-16)/6))
+#define DELAY(us)			(DelayAA(((us*(F_CPU/1000000))-16)/6))
 
 // ------------------------------------------------------------------
 //	Quick and dirty Delay (Chris Efstathiou)

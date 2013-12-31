@@ -11,9 +11,9 @@
 
 #include <avr/io.h>			/* Device include file */
 
-#define SELECT()	PORTB &= ~(_BV(0))	/* CS = L */
-#define	DESELECT()	PORTB |=  _BV(0)	/* CS = H */
-#define	MMC_SEL		!(PORTB &  _BV(0))	/* CS status (true:CS == L) */
+#define SELECT()	PORTB &= ~(_BV(4))	/* CS = L */
+#define	DESELECT()	PORTB |=  _BV(4)	/* CS = H */
+#define	MMC_SEL		!(PORTB &  _BV(4))	/* CS status (true:CS == L) */
 
 #define	FORWARD(d)	xmit(d)				/* Data forwarding function (Console out in this example) */
 

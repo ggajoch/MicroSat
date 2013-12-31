@@ -5,10 +5,14 @@
  *  Author: rexina
  */ 
 #include "SD.h"
+#include "LED.h"
+
 extern "C" {
 	#include "pff.h"
 	#include "diskio.h"
 };
+
+
 __attribute__((always_inline))
 void SD_::init()
 {
@@ -44,14 +48,20 @@ void SD_::init()
 #else
 	WorkingSDCard = true;
 	while ( ! check( pf_mount(&this->SDCard) ));
-
-
+	
+	LED.blink(3,50);
+	
 	while ( ! check( pf_open("data.txt") ));
-
+	
+	LED.blink(3,50);
+	
 	this->SDOffset = 0;
 	while ( ! check( pf_lseek(this->SDOffset) ));
+	
+	LED.blink(3,50);
 #endif
 }
 
 
 SD_ SD;
+

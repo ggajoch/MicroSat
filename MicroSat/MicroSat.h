@@ -18,9 +18,10 @@
 #include "Timer.h"
 #include "Thermistor.h"
 
+#define sbi(port, pin) port |= (1 << pin)
 
-extern bool MainInterrupt;
-extern uint8_t TimeTick;
-
+extern volatile bool Interrupt;
+extern volatile uint8_t TimeTick;
+extern volatile bool ThermistorRequest;
 
 #endif /* MICROSAT_H_ */
