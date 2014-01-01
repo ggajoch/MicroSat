@@ -9,9 +9,8 @@
 #include "MicroSat.h"
 #include "LED.h"
 #include "Accel.h"
-
-
 LED_ LED;
+bool accelHasNewData;
 
 int main(void)
 {
@@ -48,6 +47,7 @@ int main(void)
 	SD.tick();
 	uint8_t x = 3;
 	WORD written;
+	SD.log("print mest.");
 	while(x--)
 	{
 		sprintf(buffer,"MEST%d\n",x);
@@ -56,21 +56,35 @@ int main(void)
 	
 	//SD.end_block();
 	
+	SD.log("doing twi init.");
+	TWI_Init(400000L);
 	
-	LED.blink(5,30);
-		
+	SD.log("twi ok.");
+	
 	Thermistor.main_init();
+	
+	SD.log("termistor ok.");
+	
+	ADXL345_Initialize();
+	SD.log("imu ok.");
+	ADXL345_SetResolution(res_8g);
+	SD.log("imu setr.");
 	Timer2A.begin(Presc1); // 128 Hz TimeStamp
 	Timer0.begin(Presc1);
 	
-	TimeTick = 0;
-	sei();
+	LED.blink(10,50);
 	
+	TimeTick = 0;
+	int32_t globalTime = 0;
+	SD.log("before sei.");
+	sei();
+	SD.log("main loop.");
     while(1)
     {
         //TODO:: Please write your application code - Ta.
 		if ( Interrupt )
 		{
+			globalTime ++;
 			Interrupt = false;
 			while ( TimeTick > 0 )
 			{
@@ -87,6 +101,16 @@ int main(void)
 				Thermistor.end();
 				//SD.end_block();	
 				LED.blink(2,30);
+			}
+			if(globalTime % 2 == 0)
+				accelHasNewData = true;
+			if(accelHasNewData) {
+				unsigned int x = ADXL345_X();
+				unsigned int y = ADXL345_Y();
+				unsigned int z = ADXL345_Z();
+				sprintf(buffer,"XYZ%ud,%ud,%ud\n",x,y,z);
+				SD.write_buffer();
+				accelHasNewData = false;
 			}
 		}
     }

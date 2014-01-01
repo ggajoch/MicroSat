@@ -32,6 +32,7 @@ static inline void Delay_us(uint16_t x)
 	while(x--) _delay_us(1);
 }
 
+#include "TWI.h"
 #include "SD.h"
 
 #include "Timer.h"

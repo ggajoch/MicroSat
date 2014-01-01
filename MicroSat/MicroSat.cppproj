@@ -324,10 +324,10 @@
     <Compile Include="MicroSat.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Thermistor.cpp">
+    <Compile Include="SD\Thermistor.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="Thermistor.h">
+    <Compile Include="Thermistor.cpp">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\asf.h">

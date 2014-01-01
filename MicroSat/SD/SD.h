@@ -30,13 +30,18 @@ class SD_
 		void tick()
 		{
 			++this->TimeStamp;
-			sprintf(buffer,"T%d\n",this->TimeStamp);
+			sprintf(buffer,"T%ld\n",(long)(this->TimeStamp));
 			this->write_buffer();
 		}
 		void write_buffer()
 		{
 			uint8_t len = strlen(buffer);
 			pf_write(buffer, len, &written);
+		}
+		
+		void log(const char* c) {
+			strcpy(buffer, c);
+			write_buffer();
 		}
 		
 		bool check(BYTE result)
