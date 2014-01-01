@@ -10,3 +10,5 @@
 volatile bool Interrupt = 0;
 volatile uint8_t TimeTick = 0;
 volatile bool ThermistorRequest = 0;
+
+char buffer[200];

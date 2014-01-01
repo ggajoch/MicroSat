@@ -12,9 +12,6 @@
 
 #include "MicroSat.h"
 
-#define sbi(port, pin) port |= (1 << pin);
-#define cbi(port, pin) port &= ~(1 << pin);
-
 enum ClockPresc
 {
 	NOCLOCK = 0,
@@ -51,11 +48,8 @@ struct Timer1_
 
 	void begin(ClockPresc prescaler)
 	{
-		TCCR1A = 0;
-		TCCR1B = 0;
-		TCCR1B |= prescaler;
+		TCCR1B = prescaler;
 		sbi(TIMSK1, TOIE1);
-		sei();
 	}
 	void end()
 	{
@@ -70,11 +64,21 @@ struct Timer2A_
 
 	void begin(ClockPresc prescaler)
 	{
-		 TIMSK2 &= ~ _BV(TOIE2);
-		 TCCR2A = _BV(prescaler);
-		 ASSR |= _BV(AS2);
-		 TIMSK2 |= _BV(TOIE2);
-		 sei();
+		 //Disable timer2 interrupts
+		 TIMSK2  = 0;
+		 //Enable asynchronous mode
+		 ASSR  = (1<<AS2);
+		 //set initial counter value
+		 TCNT2=0;
+		 //set prescaller 128
+		 TCCR2B = prescaler;
+		 //wait for registers update
+		 while (ASSR & ((1<<TCN2UB)|(1<<TCR2BUB)));
+		 //clear interrupt flags
+		 TIFR2  = (1<<TOV2);
+		 //enable TOV2 interrupt
+		 TIMSK2  = (1<<TOIE2);
+		 
 	}
 	void end()
 	{

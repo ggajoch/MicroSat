@@ -28,11 +28,11 @@ class LED_
 	{
 		if( state )
 		{
-			sbi(PORTC, PC2);
+			sbi(LED_PORT, LED_PIN);
 		}
 		else
 		{
-			cbi(PORTC, PC2);
+			LED_PORT &= ~(1 << LED_PIN);
 		}
 	}
 	void toogle()
@@ -45,9 +45,9 @@ class LED_
 		while(times--)
 		{
 			this->toogle();
-			_delay_ms(delay_ms);
+			Delay_ms(delay_ms);
 			this->toogle();
-			_delay_ms(delay_ms);
+			Delay_ms(delay_ms);
 		}
 	}
 };
